@@ -1,0 +1,137 @@
+:root {
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --btn: clamp(56px, 17vh, 84px);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  background: #14101c;
+  position: fixed;
+  inset: 0;
+  font-family: system-ui, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+#game {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ---------- touch controls ---------- */
+#touch {
+  position: absolute;
+  inset: 0;
+  display: none;
+  touch-action: none;
+}
+#touch.on {
+  display: block;
+}
+
+.tbtn {
+  position: absolute;
+  width: var(--btn);
+  height: var(--btn);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--btn) * 0.4);
+  font-weight: 700;
+  pointer-events: none;
+  transition: transform 40ms, background 40ms;
+}
+.tbtn.active {
+  background: rgba(255, 220, 120, 0.45);
+  border-color: rgba(255, 235, 170, 0.9);
+  transform: scale(0.92);
+}
+
+.tbtn[data-btn='left'] {
+  left: calc(var(--sal) + 14px);
+  bottom: calc(var(--sab) + var(--btn) * 0.62 + 14px);
+}
+.tbtn[data-btn='right'] {
+  left: calc(var(--sal) + 14px + var(--btn) * 1.18);
+  bottom: calc(var(--sab) + var(--btn) * 0.62 + 14px);
+}
+.tbtn[data-btn='down'] {
+  width: calc(var(--btn) * 0.8);
+  height: calc(var(--btn) * 0.8);
+  left: calc(var(--sal) + 14px + var(--btn) * 0.69);
+  bottom: calc(var(--sab) + 6px);
+}
+.tbtn[data-btn='jump'] {
+  width: calc(var(--btn) * 1.15);
+  height: calc(var(--btn) * 1.15);
+  right: calc(var(--sar) + 14px);
+  bottom: calc(var(--sab) + 14px);
+}
+.tbtn[data-btn='attack'] {
+  right: calc(var(--sar) + 14px + var(--btn) * 1.3);
+  bottom: calc(var(--sab) + var(--btn) * 0.55 + 14px);
+}
+
+/* ---------- rotate notice ---------- */
+#rotate {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: #14101c;
+  color: #f4e9d0;
+  font-size: 18px;
+}
+#rotate .phone {
+  width: 54px;
+  height: 92px;
+  border: 4px solid #f4e9d0;
+  border-radius: 10px;
+  animation: rot 1.8s ease-in-out infinite;
+}
+@keyframes rot {
+  0%,
+  20% {
+    transform: rotate(0);
+  }
+  60%,
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+@media (orientation: portrait) and (pointer: coarse) {
+  #rotate {
+    display: flex;
+  }
+}
